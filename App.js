@@ -35,16 +35,103 @@ class Updatez extends React.Component {
     super(props);
     this.state = {
       id: '',
+      imageName: '',
+      imageSize: '',
+      imageType: '',
+      imageSrc: '',
+      statuz: '',
     };
+    this.pick = this.pick.bind(this);
+    this.uploadI = this.uploadI.bind(this);
     //this.post = this.post.bind(this);
   }
   static navigationOptions = {
       title: 'Add image',
     };
 
+    pick(){
+      var ImagePicker = require('react-native-image-picker');
+
+      // More info on all the options is below in the README...just some common use cases shown here
+      var options = {
+      title: 'Select Avatar',
+      customButtons: [
+      {name: 'fb', title: 'Choose Photo from Facebook'},
+      ],
+      storageOptions: {
+      skipBackup: true,
+      path: 'images'
+      }
+      };
+      /**
+      * The first arg is the options object for customization (it can also be null or omitted for default options),
+      * The second arg is the callback which sends object: response (more info below in README)
+      */
+      ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+      console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+      console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+      let source = response.uri;
+      let name = response.fileName;
+      let size = response.fileSize;
+      let type = response.fileType;
+
+      // You can also display the image using data:
+      // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+      this.setState({
+        imageSrc: source,
+        imageName: name,
+        imageSize: size,
+        imageType: type,
+      });
+      }
+      });
+    }
+
+    uploadI(iname,itype,isrc,atrid){
+      console.log(atrid)
+      var vv = "http://api.generatorwisata.com/api/attraction/upload/"+atrid;
+      console.log(vv)
+      console.log(isrc)
+      let data = new FormData()
+      data.append('image', {uri: isrc, type: itype, name: iname})
+      //fetch("http://api.generatorwisata.com/api/attraction/upload/"+atrid, {
+      fetch("http://api.generatorwisata.com/api/attraction/upload/"+atrid, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+        'Authentication': 'WshVVPQWJjdjOZckJvsdOiVGwp3KkMNQvPNCjXehlMVEt4s7EYN3lvybTs8TWwPPZvwLvensenLo6cOHVR01inbulpZgXcaQCwpenKU6CgVW53YiZt34mdBY'
+      },
+      body: data
+    }).then(response => {
+              console.log("image uploaded")
+            }).catch(err => {
+              console.log(vv+" "+err)
+            })
+
+    }
 
   render() {
     //const { navigate } = this.props.navigation;
+
+
+
+
+
+
+
+
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -55,6 +142,17 @@ class Updatez extends React.Component {
           placeholder="Attraction ID"
           value={this.state.id}
         />
+
+        <Button onPress={this.pick} title="SELECT IMAGE"/>
+        <Text>File: {this.state.imageSrc}</Text>
+
+<Button onPress={() => this.uploadI(this.state.imageName,this.state.imageType,this.state.imageSrc,this.state.id)} title="UPLOAD"/>
+        <Text>{this.state.statuz}</Text>
+        {/*
+
+          <Image source={require(this.state.avatarSource.toString())} />
+
+        */}
         </ScrollView>
       </View>
     );
