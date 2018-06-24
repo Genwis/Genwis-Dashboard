@@ -83,7 +83,7 @@ class Updatez extends React.Component {
       let source = response.uri;
       let name = response.fileName;
       let size = response.fileSize;
-      let type = response.fileType;
+      let type = response.type;
 
       // You can also display the image using data:
       // let source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -103,8 +103,10 @@ class Updatez extends React.Component {
       var vv = "http://api.generatorwisata.com/api/attraction/upload/"+atrid;
       console.log(vv)
       console.log(isrc)
+      console.log(itype)
+      console.log(iname)
       let data = new FormData()
-      data.append('file', {uri: isrc, type: itype, name: iname})
+      data.append('file', {uri: isrc, type: 'image/jpeg', name: 'photoProfile.jpeg'})
       //fetch("http://api.generatorwisata.com/api/attraction/upload/"+atrid, {
       fetch("http://api.generatorwisata.com/api/attraction/upload/"+atrid, {
       method: 'POST',
@@ -114,11 +116,26 @@ class Updatez extends React.Component {
         'Authentication': 'WshVVPQWJjdjOZckJvsdOiVGwp3KkMNQvPNCjXehlMVEt4s7EYN3lvybTs8TWwPPZvwLvensenLo6cOHVR01inbulpZgXcaQCwpenKU6CgVW53YiZt34mdBY'
       },
       body: data
-    }).then(response => {
-              console.log("image uploaded")
-            }).catch(err => {
-              console.log(vv+" "+err)
-            })
+    }).then((response) => response.json())
+      .then((responseData) => {
+        return fetch(api.searchservice + responseData)
+          .then((response) => response.json())
+          .then((responseData) => {
+            console.log(responseData);
+          })
+      })
+      .catch(function (err) {
+        return err;
+        console.log(err);
+      });
+
+
+
+    // .then(response => {
+    //           console.log("image uploaded")
+    //         }).catch(err => {
+    //           console.log(vv+" "+err)
+    //         })
 
     }
 
