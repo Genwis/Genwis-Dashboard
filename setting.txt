@@ -1,0 +1,14 @@
+const headers = {
+      Authentication: detail.data.authentication,
+      'Content-Type': 'multipart/form-data',
+    }
+    const data = new FormData()
+    data.append('file', {
+      uri: source.uri,
+      type: 'image/jpeg',
+      name: 'photoProfile.jpeg',
+    })
+    return Axios.post(`http://api.generatorwisata.com/api/user/upload/${detail.username}`, data, { headers })
+
+
+17cf8458-127e-4739-b5a7-1da246cdf319
