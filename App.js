@@ -104,7 +104,7 @@ class Updatez extends React.Component {
       console.log(vv)
       console.log(isrc)
       let data = new FormData()
-      data.append('image', {uri: isrc, type: itype, name: iname})
+      data.append('file', {uri: isrc, type: itype, name: iname})
       //fetch("http://api.generatorwisata.com/api/attraction/upload/"+atrid, {
       fetch("http://api.generatorwisata.com/api/attraction/upload/"+atrid, {
       method: 'POST',
