@@ -6,28 +6,30 @@ import { CheckBox } from 'react-native-elements';
 class HomeScreen extends React.Component {
 
   static navigationOptions = {
-    title: 'Gen-dash',
+    title: 'Genwis Dashboard',
   };
 
   render() {
     //const { navigate } = this.props.navigation;
     return (
-      <View style={{ flex: 1,alignItems:'stretch', justifyContent: 'center' }}>
-        <View style={{ flex:1,backgroundColor:'#fff',flexDirection:'row',alignItems:'center',padding:10}}>
+      <View style={{ flex: 1,alignItems:'stretch' }}>
+        <View style={{ flex:1,backgroundColor:'#fff', flexDirection: 'column',alignItems:'center', justifyContent: 'center',padding:10}}>
         <Button
           onPress={() => this.props.navigation.navigate('Addz')}
           title="ADD ATTRACTION"
-          color="#2081fd"
+          color='#27ae60'
         />
+        <Text></Text>
         <Button
           onPress={() => this.props.navigation.navigate('AddPhoto')}
           title="ADD PHOTO"
-          color="#2081fd"
+          color='#27ae60'
         />
+        <Text></Text>
         <Button
           onPress={() => this.props.navigation.navigate('UpdateAttr')}
           title="UPDATE ATTRACTION"
-          color="#2081fd"
+          color='#27ae60'
         />
         </View>
       </View>
@@ -44,7 +46,8 @@ class AddPhoto extends React.Component {
       imageSize: '',
       imageType: '',
       imageSrc: '',
-      statuz: 'zz',
+      imagePath: 'No file chosen',
+      statuz: '',
     };
     this.pick = this.pick.bind(this);
     this.uploadI = this.uploadI.bind(this);
@@ -59,10 +62,10 @@ class AddPhoto extends React.Component {
 
       // More info on all the options is below in the README...just some common use cases shown here
       var options = {
-      title: 'Select Avatar',
-      customButtons: [
-      {name: 'fb', title: 'Choose Photo from Facebook'},
-      ],
+      title: 'Select image',
+      // customButtons: [
+      // {name: 'fb', title: 'Choose Photo from Facebook'},
+      // ],
       storageOptions: {
       skipBackup: true,
       path: 'images'
@@ -89,6 +92,7 @@ class AddPhoto extends React.Component {
       let name = response.fileName;
       let size = response.fileSize;
       let type = response.type;
+      let path = response.path;
 
       // You can also display the image using data:
       // let source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -98,6 +102,7 @@ class AddPhoto extends React.Component {
         imageName: name,
         imageSize: size,
         imageType: type,
+        imagePath: path,
       });
       }
       });
@@ -176,10 +181,10 @@ class AddPhoto extends React.Component {
           value={this.state.id}
         />
 
-        <Button onPress={this.pick} title="SELECT IMAGE"/>
-        <Text>File: {this.state.imageSrc}</Text>
+        <Button onPress={this.pick} title="SELECT IMAGE" color='#27ae60'/>
+        <Text style={{paddingTop:10,paddingBottom:10}}>File: {this.state.imagePath}</Text>
 
-<Button onPress={() => this.uploadI(this.state.imageName,this.state.imageType,this.state.imageSrc,this.state.id)} title="UPLOAD"/>
+<Button color='#27ae60' onPress={() => this.uploadI(this.state.imageName,this.state.imageType,this.state.imageSrc,this.state.id)} title="UPLOAD"/>
         <Text>{this.state.statuz}</Text>
         {/*
 
@@ -196,6 +201,7 @@ class UpdateAttr extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: '',
       name: '',
       website: '',
       phone: '',
@@ -248,13 +254,16 @@ class UpdateAttr extends React.Component {
       title: 'UPDATE ATTRACTION',
     };
   fillData(){
+    console.log(this.state.id)
+    if(this.state.id!=''){
 
-    fetch('http://api.generatorwisata.com/api/attraction/17cf8458-127e-4739-b5a7-1da246cdf319')
+    fetch('http://api.generatorwisata.com/api/attraction/'+this.state.id)
           .then((response) => response.json())
           .then((responseJson) => {
            //this.setState({content: responseJson});
            console.log(responseJson)
            //console.log(responseJson.id)
+           if(responseJson.hasOwnProperty('id')){
            this.setState({name: responseJson.name});
            this.setState({website: responseJson.website});
            this.setState({phone: responseJson.phone_number});
@@ -301,14 +310,15 @@ class UpdateAttr extends React.Component {
            this.setState({open7: responseJson.opening_hours[6].open});
            this.setState({opent7: responseJson.opening_hours[6].time.open});
            this.setState({closet7: responseJson.opening_hours[6].time.close});
-
-
-
+         }else{
+           this.setState({statuz1:JSON.stringify(responseJson)});
+         }
           })
           .catch((error) => {
             console.error(error);
             this.setState({statuz1: `something went wrong, couldn't get the data`})
           });
+        }
   }
 
 
@@ -562,6 +572,7 @@ console.log('post')
           <Button
             title="Get Form"
             onPress={this.fillData}
+            color='#27ae60'
           />
           <Text>{this.state.statuz1}</Text>
           <Text>Name</Text>
@@ -728,9 +739,9 @@ console.log('post')
           />
           {this.state.open7 ? open7b : empty}
           <Button
-            onPress={() => this.update('17cf8458-127e-4739-b5a7-1da246cdf319')}
+            onPress={() => this.update(this.state.id)}
             title="SUBMIT"
-            color="#2081fd"
+            color='#27ae60'
           />
         </ScrollView>
       </View>
@@ -1302,7 +1313,7 @@ class Addz extends React.Component {
           <Button
             onPress={this.post}
             title="SUBMIT"
-            color="#2081fd"
+            color='#27ae60'
           />
         </ScrollView>
       </View>
@@ -1321,9 +1332,9 @@ const RootStack = createStackNavigator(
     initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#27ae60',
       },
-      headerTintColor: '#333',
+      headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
@@ -1348,6 +1359,9 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 20,
+  },
+  buttona: {
+    color: '#27ae60',
   }
 });
 
