@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, ScrollView, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ScrollView, Button, Alert } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { CheckBox } from 'react-native-elements';
 
@@ -39,12 +39,12 @@ class AddPhoto extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
+      id: this.props.navigation.getParam('id', ''),//const id = navigation.getParam('id', `attraction hasn't succesfully been added!`);
       imageName: '',
       imageSize: '',
       imageType: '',
       imageSrc: '',
-      statuz: '',
+      statuz: 'zz',
     };
     this.pick = this.pick.bind(this);
     this.uploadI = this.uploadI.bind(this);
@@ -73,7 +73,7 @@ class AddPhoto extends React.Component {
       * The second arg is the callback which sends object: response (more info below in README)
       */
       ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
+      // console.log('Response = ', response);
 
       if (response.didCancel) {
       console.log('User cancelled image picker');
@@ -104,12 +104,13 @@ class AddPhoto extends React.Component {
     }
 
     uploadI(iname,itype,isrc,atrid){
-      console.log(atrid)
+      //console.log(atrid)
+      this.setState({statuz: 'Uploading... please wait'});
       var vv = "http://api.generatorwisata.com/api/attraction/upload/"+atrid;
-      console.log(vv)
-      console.log(isrc)
-      console.log(itype)
-      console.log(iname)
+      // console.log(vv)
+      // console.log(isrc)
+      // console.log(itype)
+      // console.log(iname)
       let data = new FormData()
       data.append('file', {uri: isrc, type: 'image/jpeg', name: 'photoProfile.jpeg'})
       //fetch("http://api.generatorwisata.com/api/attraction/upload/"+atrid, {
@@ -121,18 +122,28 @@ class AddPhoto extends React.Component {
         'Authentication': 'WshVVPQWJjdjOZckJvsdOiVGwp3KkMNQvPNCjXehlMVEt4s7EYN3lvybTs8TWwPPZvwLvensenLo6cOHVR01inbulpZgXcaQCwpenKU6CgVW53YiZt34mdBY'
       },
       body: data
-    }).then((response) => response.json())
-      .then((responseData) => {
-        return fetch(api.searchservice + responseData)
-          .then((response) => response.json())
-          .then((responseData) => {
-            console.log(responseData);
-          })
-      })
-      .catch(function (err) {
-        return err;
-        console.log(err);
-      });
+    }).then((response) => response.text())
+      .then((responseText) => {
+         console.log(responseText);
+         this.setState({statuz: 'Uploading success!'});
+      }).catch((error) => {
+      console.error(error);
+      this.setState({statuz: 'Uploading failed!'});
+    });
+
+
+    // .then((response) => response.json())
+    //   .then((responseData) => {
+    //     return fetch(api.searchservice + responseData)
+    //       .then((response) => response.json())
+    //       .then((responseData) => {
+    //         console.log(responseData);
+    //       })
+    //   })
+    //   .catch(function (err) {
+    //     return err;
+    //     console.log(err);
+    //   });
 
 
 
@@ -227,8 +238,10 @@ class UpdateAttr extends React.Component {
       open7: false,
       opent7: '',
       closet7: '',
+      statuz1: '',
+      statuz2: '',
     };
-    this.post = this.post.bind(this);
+    //this.post = this.post.bind(this);
     this.fillData = this.fillData.bind(this);
   }
   static navigationOptions = {
@@ -294,11 +307,12 @@ class UpdateAttr extends React.Component {
           })
           .catch((error) => {
             console.error(error);
+            this.setState({statuz1: `something went wrong, couldn't get the data`})
           });
   }
 
 
-  post(){
+  update(atrid){
 console.log('post')
     var jsonBod = JSON.stringify(
       {
@@ -379,8 +393,8 @@ console.log('post')
       ]
       }
     );
-    fetch('http://api.generatorwisata.com/api/attraction', {
-      method: 'POST',
+    fetch('http://api.generatorwisata.com/api/attraction/'+atrid, {
+      method: 'PUT',
       headers: {
         'Accept': 'text/html',
         'Content-Type': 'Content-Type: application/json',
@@ -391,10 +405,18 @@ console.log('post')
       .then((responseText) => {
          console.log(responseText);
          //this.setState({data: '',status: responseText});
+         Alert.alert(
+           'Notice',
+           'Update success',
+           [
+             {text: 'OK', onPress: () => console.log('OK Pressed')},
+           ],
+           { cancelable: false }
+         )
       }).catch((error) => {
       console.error(error);
     });
-    console.log(jsonBod)
+    //console.log(jsonBod)
   }
   render() {
     var empty = <View></View>;
@@ -541,6 +563,7 @@ console.log('post')
             title="Get Form"
             onPress={this.fillData}
           />
+          <Text>{this.state.statuz1}</Text>
           <Text>Name</Text>
           <TextInput
             style={styles.inputtext}
@@ -705,7 +728,7 @@ console.log('post')
           />
           {this.state.open7 ? open7b : empty}
           <Button
-            onPress={this.post}
+            onPress={() => this.update('17cf8458-127e-4739-b5a7-1da246cdf319')}
             title="SUBMIT"
             color="#2081fd"
           />
@@ -943,14 +966,43 @@ class Addz extends React.Component {
       body: jsonBod,
     }).then((response) => response.text())
       .then((responseText) => {
+        if(JSON.parse(responseText).hasOwnProperty('id')){
+          console.log(JSON.parse(responseText).id);
+          console.log('suck ses')
+          this.props.navigation.navigate('AddPhoto', {
+               id: JSON.parse(responseText).id,
+             });
+        }else{
+          Alert.alert(
+            'Alert',
+            `Something went wrong, couldn't add attraction! make sure you have filled all the forms correctly!
+`+responseText,
+            [
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            { cancelable: false }
+          )
+        }
+
          console.log(responseText);
+
+
          //this.setState({data: '',status: responseText});
       }).catch((error) => {
       console.error(error);
+      Alert.alert(
+  'Alert',
+  `Something went wrong, couldn't add attraction!`,
+  [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ],
+  { cancelable: false }
+)
     });
-    console.log(jsonBod)
+    //console.log(jsonBod)
   }
   render() {
+
     var empty = <View></View>;
     var open1b = <View>
     <Text>Open Time</Text>
