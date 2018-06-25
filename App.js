@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, ScrollView, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ScrollView, Button, Alert, Picker, ActivityIndicator } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { CheckBox } from 'react-native-elements';
 
@@ -795,6 +795,10 @@ class Addz extends React.Component {
       open7: false,
       opent7: '',
       closet7: '',
+      //locitem: {'1':'a','2':'b','3':'c'},
+      isLoading: true,
+      locitem: {},
+      selected: '',
     };
     this.post = this.post.bind(this);
   }
@@ -1012,6 +1016,41 @@ class Addz extends React.Component {
     });
     //console.log(jsonBod)
   }
+
+  componentDidMount(){
+  return fetch('http://api.generatorwisata.com/api/locations')
+    .then((response) => response.json())
+    .then((responseJson) => {
+
+      // this.setState({
+      //   isLoading: false,
+      //   dataSource: responseJson.movies,
+      // }, function(){
+      //
+      // });
+
+
+      var i = 0;
+      for (var key in responseJson) {
+        var keyz = responseJson[i].id;
+        Object.assign(this.state.locitem, {[keyz]: responseJson[i].city});
+        if(i==0) this.setState({selected: responseJson[i].city})
+        i++;
+
+      }
+      this.setState({
+        isLoading: false,
+      })
+      console.log("typeof: "+typeof responseJson[1].city)
+      console.log(this.state.selected)
+      console.log(this.state.locitem)
+      console.log(responseJson)
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
+}
+
   render() {
 
     var empty = <View></View>;
@@ -1144,6 +1183,15 @@ class Addz extends React.Component {
     />
     </View>;
 
+
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20}}>
+          <ActivityIndicator/>
+        </View>
+      )
+    }
+
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -1189,6 +1237,15 @@ class Addz extends React.Component {
             placeholder="Route"
             value={this.state.route}
           />
+          <Text>Location (city)</Text>
+          <Picker
+              mode="dropdown"
+              selectedValue={this.state.selected}
+              onValueChange={(itemValue, itemIndex) => this.setState({loc_id: itemValue, selected: itemValue})}>
+              {Object.keys(this.state.locitem).map((key) => {
+                  return (<Picker.Item label={this.state.locitem[key]} value={key} key={key}/>) //if you have a bunch of keys value pair
+              })}
+          </Picker>
           <Text>Location Id</Text>
           <TextInput
             style={styles.inputtext}
