@@ -403,6 +403,21 @@ console.log('post')
       ]
       }
     );
+    if(((this.state.opent1>=0&&this.state.opent1<=23)||this.state.opent1==null||this.state.opent1=='')
+    &&((this.state.opent2>=0&&this.state.opent2<=23)||this.state.opent2==null||this.state.opent2=='')
+    &&((this.state.opent3>=0&&this.state.opent3<=23)||this.state.opent3==null||this.state.opent3=='')
+    &&((this.state.opent4>=0&&this.state.opent4<=23)||this.state.opent4==null||this.state.opent4=='')
+    &&((this.state.opent5>=0&&this.state.opent5<=23)||this.state.opent5==null||this.state.opent5=='')
+    &&((this.state.opent6>=0&&this.state.opent6<=23)||this.state.opent6==null||this.state.opent6=='')
+    &&((this.state.opent7>=0&&this.state.opent7<=23)||this.state.opent7==null||this.state.opent7=='')
+    &&((this.state.closet1>=0&&this.state.closet1<=23)||this.state.closet1==null||this.state.closet1=='')
+    &&((this.state.closet2>=0&&this.state.closet2<=23)||this.state.closet2==null||this.state.closet2=='')
+    &&((this.state.closet3>=0&&this.state.closet3<=23)||this.state.closet3==null||this.state.closet3=='')
+    &&((this.state.closet4>=0&&this.state.closet4<=23)||this.state.closet4==null||this.state.closet4=='')
+    &&((this.state.closet5>=0&&this.state.closet5<=23)||this.state.closet5==null||this.state.closet5=='')
+    &&((this.state.closet6>=0&&this.state.closet6<=23)||this.state.closet6==null||this.state.closet6=='')
+    &&((this.state.closet7>=0&&this.state.closet7<=23)||this.state.closet7==null||this.state.closet7=='')
+){
     fetch('http://api.generatorwisata.com/api/attraction/'+atrid, {
       method: 'PUT',
       headers: {
@@ -426,6 +441,16 @@ console.log('post')
       }).catch((error) => {
       console.error(error);
     });
+  }else{
+    Alert.alert(
+      'Alert',
+      `Something went wrong, please only input number in 0-23 range`,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    )
+  }
     //console.log(jsonBod)
   }
   render() {
@@ -436,14 +461,14 @@ console.log('post')
       style={styles.inputtext}
       onChangeText={(value) => this.setState({opent1: value})}
       placeholder="Open time"
-      value={this.state.opent1.toString()}
+      value={this.state.opent1.toString()} maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
       style={styles.inputtext}
       onChangeText={(value) => this.setState({closet1: value})}
       placeholder="Close time"
-      value={this.state.closet1.toString()}
+      value={this.state.closet1.toString()} maxLength={2}
     />
     </View>;
     var open2b = <View>
@@ -452,14 +477,14 @@ console.log('post')
       style={styles.inputtext}
       onChangeText={(value) => this.setState({opent2: value})}
       placeholder="Open time"
-      value={this.state.opent2.toString()}
+      value={this.state.opent2.toString()} maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
       style={styles.inputtext}
       onChangeText={(value) => this.setState({closet2: value})}
       placeholder="Close time"
-      value={this.state.closet2.toString()}
+      value={this.state.closet2.toString()} maxLength={2}
     />
     </View>;
     var open3b = <View>
@@ -468,14 +493,14 @@ console.log('post')
       style={styles.inputtext}
       onChangeText={(value) => this.setState({opent3: value})}
       placeholder="Open time"
-      value={this.state.opent3.toString()}
+      value={this.state.opent3.toString()} maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
       style={styles.inputtext}
       onChangeText={(value) => this.setState({closet3: value})}
       placeholder="Close time"
-      value={this.state.closet3.toString()}
+      value={this.state.closet3.toString()} maxLength={2}
     />
     </View>;
     var open4b = <View>
@@ -484,14 +509,14 @@ console.log('post')
       style={styles.inputtext}
       onChangeText={(value) => this.setState({opent4: value})}
       placeholder="Open time"
-      value={this.state.opent4.toString()}
+      value={this.state.opent4.toString()} maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
       style={styles.inputtext}
       onChangeText={(value) => this.setState({closet4: value})}
       placeholder="Close time"
-      value={this.state.closet4.toString()}
+      value={this.state.closet4.toString()} maxLength={2}
     />
     </View>;
     // var open4b = <View>
@@ -516,14 +541,14 @@ console.log('post')
       style={styles.inputtext}
       onChangeText={(value) => this.setState({opent5: value})}
       placeholder="Open time"
-      value={this.state.opent5.toString()}
+      value={this.state.opent5.toString()} maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
       style={styles.inputtext}
       onChangeText={(value) => this.setState({closet5: value})}
       placeholder="Close time"
-      value={this.state.closet5.toString()}
+      value={this.state.closet5.toString()} maxLength={2}
     />
     </View>;
     var open6b = <View>
@@ -532,14 +557,14 @@ console.log('post')
       style={styles.inputtext}
       onChangeText={(value) => this.setState({opent6: value})}
       placeholder="Open time"
-      value={this.state.opent6.toString()}
+      value={this.state.opent6.toString()} maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
       style={styles.inputtext}
       onChangeText={(value) => this.setState({closet6: value})}
       placeholder="Close time"
-      value={this.state.closet6.toString()}
+      value={this.state.closet6.toString()} maxLength={2}
     />
     </View>;
     var open7b = <View>
@@ -549,6 +574,7 @@ console.log('post')
       onChangeText={(value) => this.setState({opent7: value})}
       placeholder="Open time"
       value={this.state.opent7.toString()}
+      maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
@@ -556,6 +582,7 @@ console.log('post')
       onChangeText={(value) => this.setState({closet7: value})}
       placeholder="Close time"
       value={this.state.closet7.toString()}
+      maxLength={2}
     />
     </View>;
 
@@ -922,55 +949,70 @@ class Addz extends React.Component {
         {
           open: this.state.open1,
           time: {
-            open: parseInt(this.state.opent1),
-            close: parseInt(this.state.closet1)
+            open: this.state.opent1*60,
+            close: this.state.closet1*60
           }
         },
         {
           open: this.state.open2,
           time: {
-            open: parseInt(this.state.opent2),
-            close: parseInt(this.state.closet2)
+            open: this.state.opent2*60,
+            close: this.state.closet2*60
           }
         },
         {
           open: this.state.open3,
           time: {
-            open: parseInt(this.state.opent3),
-            close: parseInt(this.state.closet3)
+            open: this.state.opent3*60,
+            close: this.state.closet3*60
         }
         },
         {
           open: this.state.open4,
           time: {
-            open: parseInt(this.state.opent4),
-            close: parseInt(this.state.closet4)
+            open: this.state.opent4*60,
+            close: this.state.closet4*60
         }
         },
         {
           open: this.state.open5,
           time: {
-            open: parseInt(this.state.opent5),
-            close: parseInt(this.state.closet5)
+            open: this.state.opent5*60,
+            close: this.state.closet5*60
         }
         },
         {
           open: this.state.open6,
           time: {
-            open: parseInt(this.state.opent6),
-            close: parseInt(this.state.closet6)
+            open: this.state.opent6*60,
+            close: this.state.closet6*60
         }
         },
         {
           open: this.state.open7,
           time: {
-            open: parseInt(this.state.opent7),
-            close: parseInt(this.state.closet7)
+            open: this.state.opent7*60,
+            close: this.state.closet7*60
         }
         }
       ]
       }
     );
+    if(((this.state.opent1>=0&&this.state.opent1<=23)||this.state.opent1==null||this.state.opent1=='')
+    &&((this.state.opent2>=0&&this.state.opent2<=23)||this.state.opent2==null||this.state.opent2=='')
+    &&((this.state.opent3>=0&&this.state.opent3<=23)||this.state.opent3==null||this.state.opent3=='')
+    &&((this.state.opent4>=0&&this.state.opent4<=23)||this.state.opent4==null||this.state.opent4=='')
+    &&((this.state.opent5>=0&&this.state.opent5<=23)||this.state.opent5==null||this.state.opent5=='')
+    &&((this.state.opent6>=0&&this.state.opent6<=23)||this.state.opent6==null||this.state.opent6=='')
+    &&((this.state.opent7>=0&&this.state.opent7<=23)||this.state.opent7==null||this.state.opent7=='')
+    &&((this.state.closet1>=0&&this.state.closet1<=23)||this.state.closet1==null||this.state.closet1=='')
+    &&((this.state.closet2>=0&&this.state.closet2<=23)||this.state.closet2==null||this.state.closet2=='')
+    &&((this.state.closet3>=0&&this.state.closet3<=23)||this.state.closet3==null||this.state.closet3=='')
+    &&((this.state.closet4>=0&&this.state.closet4<=23)||this.state.closet4==null||this.state.closet4=='')
+    &&((this.state.closet5>=0&&this.state.closet5<=23)||this.state.closet5==null||this.state.closet5=='')
+    &&((this.state.closet6>=0&&this.state.closet6<=23)||this.state.closet6==null||this.state.closet6=='')
+    &&((this.state.closet7>=0&&this.state.closet7<=23)||this.state.closet7==null||this.state.closet7=='')
+){
     fetch('http://api.generatorwisata.com/api/attraction', {
       method: 'POST',
       headers: {
@@ -999,6 +1041,7 @@ class Addz extends React.Component {
           )
         }
 
+
          console.log(responseText);
 
 
@@ -1014,6 +1057,16 @@ class Addz extends React.Component {
   { cancelable: false }
 )
     });
+  }else{
+    Alert.alert(
+      'Alert',
+      `Something went wrong, please only input number in 0-23 range`,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    )
+  }
     //console.log(jsonBod)
   }
 
@@ -1029,12 +1082,15 @@ class Addz extends React.Component {
       //
       // });
 
-
+      var loc;
       var i = 0;
       for (var key in responseJson) {
         var keyz = responseJson[i].id;
         Object.assign(this.state.locitem, {[keyz]: responseJson[i].city});
-        if(i==0) this.setState({selected: responseJson[i].city})
+        if(i==0){
+          this.setState({selected: responseJson[i].city,loc_id: keyz})
+
+        }
         i++;
 
       }
@@ -1061,6 +1117,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({opent1: value})}
       placeholder="Open time"
       value={this.state.opent1}
+      maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
@@ -1068,6 +1125,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({closet1: value})}
       placeholder="Close time"
       value={this.state.closet1}
+      maxLength={2}
     />
     </View>;
     var open2b = <View>
@@ -1077,6 +1135,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({opent2: value})}
       placeholder="Open time"
       value={this.state.opent2}
+      maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
@@ -1084,6 +1143,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({closet2: value})}
       placeholder="Close time"
       value={this.state.closet2}
+      maxLength={2}
     />
     </View>;
     var open3b = <View>
@@ -1093,6 +1153,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({opent3: value})}
       placeholder="Open time"
       value={this.state.opent3}
+      maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
@@ -1100,6 +1161,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({closet3: value})}
       placeholder="Close time"
       value={this.state.closet3}
+      maxLength={2}
     />
     </View>;
     var open4b = <View>
@@ -1109,6 +1171,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({opent4: value})}
       placeholder="Open time"
       value={this.state.opent4}
+      maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
@@ -1116,24 +1179,27 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({closet4: value})}
       placeholder="Close time"
       value={this.state.closet4}
+      maxLength={2}
     />
     </View>;
-    var open4b = <View>
-    <Text>Open Time</Text>
-    <TextInput
-      style={styles.inputtext}
-      onChangeText={(value) => this.setState({opent4: value})}
-      placeholder="Open time"
-      value={this.state.opent4}
-    />
-    <Text>Close Time</Text>
-    <TextInput
-      style={styles.inputtext}
-      onChangeText={(value) => this.setState({closet4: value})}
-      placeholder="Close time"
-      value={this.state.closet4}
-    />
-    </View>;
+    // var open4b = <View>
+    // <Text>Open Time</Text>
+    // <TextInput
+    //   style={styles.inputtext}
+    //   onChangeText={(value) => this.setState({opent4: value})}
+    //   placeholder="Open time"
+    //   value={this.state.opent4}
+    //   maxLength={2}
+    // />
+    // <Text>Close Time</Text>
+    // <TextInput
+    //   style={styles.inputtext}
+    //   onChangeText={(value) => this.setState({closet4: value})}
+    //   placeholder="Close time"
+    //   value={this.state.closet4}
+    //   maxLength={2}
+    // />
+    // </View>;
     var open5b = <View>
     <Text>Open Time</Text>
     <TextInput
@@ -1141,6 +1207,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({opent5: value})}
       placeholder="Open time"
       value={this.state.opent5}
+      maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
@@ -1148,6 +1215,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({closet5: value})}
       placeholder="Close time"
       value={this.state.closet5}
+      maxLength={2}
     />
     </View>;
     var open6b = <View>
@@ -1157,6 +1225,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({opent6: value})}
       placeholder="Open time"
       value={this.state.opent6}
+      maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
@@ -1164,6 +1233,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({closet6: value})}
       placeholder="Close time"
       value={this.state.closet6}
+      maxLength={2}
     />
     </View>;
     var open7b = <View>
@@ -1173,6 +1243,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({opent7: value})}
       placeholder="Open time"
       value={this.state.opent7}
+      maxLength={2}
     />
     <Text>Close Time</Text>
     <TextInput
@@ -1180,6 +1251,7 @@ class Addz extends React.Component {
       onChangeText={(value) => this.setState({closet7: value})}
       placeholder="Close time"
       value={this.state.closet7}
+      maxLength={2}
     />
     </View>;
 
@@ -1252,6 +1324,7 @@ class Addz extends React.Component {
             onChangeText={(value) => this.setState({loc_id: value})}
             placeholder="Location Id"
             value={this.state.loc_id}
+            editable={false} selectTextOnFocus={false}
           />
           <Text>Description</Text>
           <TextInput
